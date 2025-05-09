@@ -1,21 +1,26 @@
 package model;
 
-import java.util.Date;
+
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class Emprestimo {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private int id;
     private static int contadorId = 1;
     private Livro livro;
     private String nomeUsuario;
-    private Date dataEmprestimo;
-    private Date dataDevolucao;
+    private LocalDate dataEmprestimo;
+    private LocalDate dataDevolucao;
     private boolean ativo;
 
     public Emprestimo(String nomeUsuario, Livro livro) {
         this.id = contadorId++;
         this.nomeUsuario = nomeUsuario;
         this.livro = livro;
-        this.dataEmprestimo = new Date();
+        this.dataEmprestimo = LocalDate.now();
         this.ativo = true;
     }
 
@@ -46,19 +51,20 @@ public class Emprestimo {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public Date getDataEmprestimo() {
-        return dataEmprestimo;
+    public String getDataEmprestimo() {
+        return dataEmprestimo.format(formatter);
+
     }
 
-    public void setDataEmprestimo(Date dataEmprestimo) {
+    public void setDataEmprestimo(LocalDate dataEmprestimo) {
         this.dataEmprestimo = dataEmprestimo;
     }
 
-    public Date getDataDevolucao() {
-        return dataDevolucao;
+    public String getDataDevolucao() {
+        return dataDevolucao.format(formatter);
     }
 
-    public void setDataDevolucao(Date dataDevolucao) {
+    public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
 
@@ -70,8 +76,8 @@ public class Emprestimo {
         this.ativo = ativo;
     }
 
-    public void devolverLivro(){
-        dataDevolucao = new Date();
+    public void devolverLivro() {
+        dataDevolucao = LocalDate.now();
         this.ativo = false;
         this.livro.setDisponivel(true);
     }

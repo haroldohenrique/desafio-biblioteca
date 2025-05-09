@@ -86,6 +86,7 @@ public class Biblioteca {
         for (Emprestimo emprestimo : emprestimos) {
             if (emprestimo.getId() == idDoLivroEmprestado && emprestimo.isAtivo()) {
                 emprestimo.devolverLivro();
+                emprestimos.remove(emprestimo);
                 break;
             }
         }

@@ -3,7 +3,7 @@ import model.Biblioteca;
 import model.Emprestimo;
 import model.Livro;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -39,7 +39,7 @@ public class Main {
                 List<Livro> livrosDisponiveis = biblioteca.mostrarLivrosDisponiveis();
 
                 if (livrosDisponiveis.isEmpty()) {
-                    System.out.println("Não há livros disponíveis no momento.");
+                    System.out.println("Não há livros disponíveis no momento.\n------------------------");
                 } else {
                     System.out.println("Livros disponíveis:");
                     for (Livro livro : livrosDisponiveis) {
@@ -57,9 +57,9 @@ public class Main {
                         String nomeUsuario = input.nextLine();
 
                         biblioteca.emprestarLivro(livroSelecionado, nomeUsuario);
-                        System.out.println("O livro " + livroSelecionado.getTitulo() + " foi emprestado para " + nomeUsuario);
+                        System.out.println("O livro " + livroSelecionado.getTitulo() + " foi emprestado para " + nomeUsuario + "\n------------------------");
                     } else {
-                        System.out.println("Livro não encontrado ou não disponível para empréstimo.");
+                        System.out.println("Livro não encontrado ou não disponível para empréstimo.\n------------------------");
                     }
                 }
             } else if (resposta.equals("2")) {
@@ -69,19 +69,40 @@ public class Main {
                 } else {
                     System.out.println("Lista de emprestimos: ");
                     for (Emprestimo emprestimo : biblioteca.mostrarEmprestimos()) {
+                        System.out.println("ID: " + emprestimo.getId());
                         System.out.println("Nome do livro: " + emprestimo.getLivro().getTitulo() + "\nLocator: " + emprestimo.getNomeUsuario());
-                        System.out.println("Data do emprestimo" + emprestimo.getDataEmprestimo() + "\n------------------------");
+                        System.out.println("Data do emprestimo: " + emprestimo.getDataEmprestimo() + "\n------------------------");
                     }
+                    do {
+                        System.out.println("Deseja devolver algum livro?\n1 - Sim\n2 - Não");
+                        String respostaNova = input.nextLine();
+                        if (respostaNova.equals("1")) {
+                            System.out.println("Digite o id do livro a ser devolvido: ");
+                            int idLivro = input.nextInt();
+                            input.nextLine();
+                            biblioteca.devolverLivro(idLivro);
+                            System.out.println("Livro devolvido");
+                        } else if (respostaNova.equals("2")) {
+                            System.out.println("Voltando ao menu");
+                            break;
+                        } else {
+                            System.out.println("Digite somente 1 ou 2");
+                        }
+                    } while (!biblioteca.mostrarEmprestimos().isEmpty());
+
                 }
+
             } else if (resposta.equals("3")) {
                 System.out.println("Encerrando menu");
+                input.close();
                 break;
             } else {
                 System.out.println("Resposta inválida. Por favor, responda com 'sim' ou 'não'.");
             }
-        }
 
+        }
         input.close();
+
     }
 }
 
