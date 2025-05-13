@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 public class Livro {
+    private static int contadorId = 1;
     private int id;
     private String titulo;
     private Autor autor;
@@ -10,8 +11,8 @@ public class Livro {
     private Date dataCadastro;
     private Date dataAtualizacao;
 
-    public Livro(int id, String titulo, Autor autor) {
-        this.id = id;
+    public Livro(String titulo, Autor autor) {
+        this.id = contadorId++;
         this.titulo = titulo;
         this.autor = autor;
         this.disponivel = true;

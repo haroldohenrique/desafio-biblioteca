@@ -4,6 +4,7 @@ import model.Emprestimo;
 import model.Livro;
 
 
+import java.sql.SQLOutput;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -13,18 +14,21 @@ public class Main {
         Biblioteca biblioteca = new Biblioteca();
         Scanner input = new Scanner(System.in);
 
+        //preset de livros e autores
+
 
         //Adicionando autores na biblioteca
         Autor autor1 = new Autor(1, "Haroldo Henrique das Neves", new Date(2000, 3, 4));
         Autor autor2 = new Autor(2, "Maria Ivania Martins dos Santos", new Date(1967, 6, 26));
+        Autor autor3 = new Autor(3,"Tayssa Quaresma",new Date(2005,8,22));
 
         biblioteca.adicionarAutor(autor1);
         biblioteca.adicionarAutor(autor2);
 
         //Adicionando livros na biblioteca
-        Livro livro1 = new Livro(1, "Dia maravilhoso", autor1);
-        Livro livro2 = new Livro(2, "Bolsonaro ladrão!", autor1);
-        Livro livro3 = new Livro(3, "Dia top e trabalhado", autor2);
+        Livro livro1 = new Livro("The Witcher III", autor1);
+        Livro livro2 = new Livro("Liberalismo é o futuro?!", autor1);
+        Livro livro3 = new Livro("Viva a privatização!", autor2);
 
         biblioteca.adicionarLivro(livro1);
         biblioteca.adicionarLivro(livro2);
@@ -32,7 +36,7 @@ public class Main {
 
         // Loop para a interação com o usuário
         while (true) {
-            System.out.println("Menu de interação BIBLIOTECA \n1 - Listar livros\n2 - Listar livros emprestados\n3 - Encerrar programa");
+            System.out.println("Menu de interação BIBLIOTECA \n1 - Listar livros\n2 - Listar livros emprestados\n3 - Adicionar livros\n4 - Encerrar programa");
             String resposta = input.nextLine();
 
             if (resposta.equals("1")) {
@@ -75,14 +79,14 @@ public class Main {
                     }
                     do {
                         System.out.println("Deseja devolver algum livro?\n1 - Sim\n2 - Não");
-                        String respostaNova = input.nextLine();
-                        if (respostaNova.equals("1")) {
+                        resposta = input.nextLine();
+                        if (resposta.equals("1")) {
                             System.out.println("Digite o id do livro a ser devolvido: ");
                             int idLivro = input.nextInt();
                             input.nextLine();
                             biblioteca.devolverLivro(idLivro);
                             System.out.println("Livro devolvido");
-                        } else if (respostaNova.equals("2")) {
+                        } else if (resposta.equals("2")) {
                             System.out.println("Voltando ao menu");
                             break;
                         } else {
@@ -93,6 +97,29 @@ public class Main {
                 }
 
             } else if (resposta.equals("3")) {
+                System.out.println("Digite o nome do livro que deseja adicionar: ");
+                String nomeLivro = input.nextLine();
+
+                for (Autor autor : biblioteca.mostrarAutores()) {
+                    System.out.println(autor.getId() + " - " + autor.getNome());
+                }
+
+
+                while (true) {
+                    System.out.println("Digite o ID do autor: ");
+                    int idAutor = input.nextInt();
+                    input.nextLine();
+                    if (biblioteca.buscaAutorPorId(idAutor) == null) {
+                        System.out.println("Autor não encontrado");
+                    } else {
+                        Livro novoLivro = new Livro(nomeLivro, biblioteca.buscaAutorPorId(idAutor));
+                        biblioteca.adicionarLivro(novoLivro);
+                        System.out.println("Livro adicionado com sucesso");
+                        break;
+                    }
+                }
+
+            } else if (resposta.equals("4")) {
                 System.out.println("Encerrando menu");
                 input.close();
                 break;

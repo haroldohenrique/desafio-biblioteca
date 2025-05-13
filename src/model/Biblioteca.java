@@ -54,6 +54,15 @@ public class Biblioteca {
         autores.add(autor);
     }
 
+    public Autor buscaAutorPorId(int idAutor) {
+        for (Autor autor : autores) {
+            if (autor.getId() == idAutor) {
+                return autor;
+            }
+        }
+        return null;
+    }
+
     public List<Autor> mostrarAutores() {
         return autores;
     }
@@ -92,7 +101,7 @@ public class Biblioteca {
         }
     }
 
-    public List<Emprestimo> mostrarEmprestimos(){
+    public List<Emprestimo> mostrarEmprestimos() {
         return emprestimos;
     }
 }
